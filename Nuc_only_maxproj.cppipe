@@ -1,0 +1,210 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:424
+GitHash:
+ModuleCount:13
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['Input images should be maximum projections or single slices.', '', 'Load in a directory with all channel images or select only nuclear channel images.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:Images only
+    Select the rule criteria:and (extension does isimage) (directory doesnot containregexp "[\\\\/]\\.")
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:['The Metadata module optionally allows you to extract information describing your images (i.e, metadata) which will be stored along with your measurements. This information can be contained in the file name and/or location, or in an external file.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:No
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:1
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:^(?P<Plate>.*)_(?P<Well>[A-P][0-9]{2})_s(?P<Site>[0-9])_w(?P<ChannelNumber>[0-9])
+    Regular expression to extract from folder name:(?P<Date>[0-9]{4}_[0-9]{2}_[0-9]{2})$
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:No
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['Identify the nuclear channel images if multiple channel images are in the loaded directory. Alternatively only load in the nuclear images.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:Images matching rules
+    Select the image type:Grayscale image
+    Name to assign these images:DNA
+    Match metadata:[]
+    Image set matching method:Order
+    Set intensity range from:Image metadata
+    Assignments count:3
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:No
+    Relative pixel spacing in X:1.0
+    Relative pixel spacing in Y:1.0
+    Relative pixel spacing in Z:1.0
+    Select the rule criteria:and (file does contain "C0.tif")
+    Name to assign these images:Nuc
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "C1.tif")
+    Name to assign these images:Myo
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "C2.tif")
+    Name to assign these images:Act
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['The Groups module optionally allows you to split your list of images into image subsets (groups) which will be processed independently of each other. Examples of groupings include screening batches, microtiter plates, time-lapse movies, etc.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:No
+    grouping metadata count:1
+    Metadata category:None
+
+IdentifyPrimaryObjects:[module_num:5|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:['Identify nuclei.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:Nuc
+    Name the primary objects to be identified:Nuclei
+    Typical diameter of objects, in pixel units (Min,Max):60,150
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:7.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:Yes
+    Automatically calculate minimum allowed distance between local maxima?:Yes
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Minimum Cross-Entropy
+    Threshold smoothing scale:1.3488
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.0,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Minimum Cross-Entropy
+
+MeasureObjectIntensity:[module_num:6|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:Nuc
+    Select objects to measure:Nuclei
+
+MeasureObjectIntensityDistribution:[module_num:7|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:Nuc
+    Hidden:1
+    Hidden:1
+    Hidden:1
+    Calculate intensity Zernikes?:Magnitudes and phase
+    Maximum zernike moment:9
+    Select objects to measure:Nuclei
+    Object to use as center?:These objects
+    Select objects to use as centers:None
+    Scale the bins?:Yes
+    Number of bins:6
+    Maximum radius:100
+    Image:None
+    Objects to display:Do not use
+    Number of bins:6
+    Measurement:Fraction at Distance
+    Color map:Blues_r
+    Save display as image?:Yes
+    Output image name:DistributionHeatmap
+
+MeasureObjectSizeShape:[module_num:8|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select object sets to measure:Nuclei
+    Calculate the Zernike features?:Yes
+    Calculate the advanced features?:Yes
+
+MeasureTexture:[module_num:9|svn_version:'Unknown'|variable_revision_number:7|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select images to measure:Nuc
+    Select objects to measure:Nuclei
+    Enter how many gray levels to measure the texture at:20
+    Hidden:1
+    Measure whole images or objects?:Objects
+    Texture scale to measure:3
+
+SaveImages:[module_num:10|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:DistributionHeatmap
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:Nuc
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:Yes
+    Text to append to the image name:dist_heatmap
+    Saved file format:tiff
+    Output file location:Default Input Folder sub-folder|My Drive/Prasad_Lab/nuclear_shape/images/20240226_tiffs_output/20240226_distribution_heatmaps
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+    Save with lossless compression?:Yes
+
+ConvertObjectsToImage:[module_num:11|svn_version:'Unknown'|variable_revision_number:1|show_window:False|notes:['Use this module to create an image from the identify primary object mocule to save.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input objects:Nuclei
+    Name the output image:NucObjects
+    Select the color format:Color
+    Select the colormap:Default
+
+SaveImages:[module_num:12|svn_version:'Unknown'|variable_revision_number:16|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:NucObjects
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:Nuc
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:Yes
+    Text to append to the image name:segmented
+    Saved file format:tiff
+    Output file location:Default Input Folder sub-folder|My Drive/Prasad_Lab/nuclear_shape/images/20240226_tiffs_output/20240226_identify_nuc
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+    Save with lossless compression?:Yes
+
+ExportToSpreadsheet:[module_num:13|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the column delimiter:Comma (",")
+    Add image metadata columns to your object data file?:No
+    Add image file and folder names to your object data file?:No
+    Select the measurements to export:Yes
+    Calculate the per-image mean values for object measurements?:Yes
+    Calculate the per-image median values for object measurements?:Yes
+    Calculate the per-image standard deviation values for object measurements?:Yes
+    Output file location:Default Input Folder sub-folder|My Drive/Prasad_Lab/nuclear_shape/Data/20240226_cpoutput_nuc
+    Create a GenePattern GCT file?:No
+    Select source of sample row name:Metadata
+    Select the image to use as the identifier:None
+    Select the metadata to use as the identifier:None
+    Export all measurement types?:Yes
+    Press button to select measurements:Image|FileName_Act,Image|FileName_Nuc,Image|FileName_Myo,Image|ExecutionTime_06MeasureObjectIntensity,Image|ExecutionTime_08MeasureObjectSizeShape,Image|ExecutionTime_02Metadata,Image|ExecutionTime_01Images,Image|ExecutionTime_03NamesAndTypes,Image|ExecutionTime_05IdentifyPrimaryObjects,Image|ExecutionTime_04Groups,Image|ExecutionTime_12SaveImages,Image|ExecutionTime_11ConvertObjectsToImage,Image|ExecutionTime_10SaveImages,Image|ExecutionTime_07MeasureObjectIntensityDistribution,Image|ExecutionTime_09MeasureTexture,Image|Width_Act,Image|Width_Nuc,Image|Width_Myo,Image|Scaling_Myo,Image|Scaling_Act,Image|Scaling_Nuc,Image|Height_Act,Image|Height_Myo,Image|Height_Nuc,Image|ModuleError_12SaveImages,Image|ModuleError_06MeasureObjectIntensity,Image|ModuleError_02Metadata,Image|ModuleError_07MeasureObjectIntensityDistribution,Image|ModuleError_10SaveImages,Image|ModuleError_11ConvertObjectsToImage,Image|ModuleError_08MeasureObjectSizeShape,Image|ModuleError_09MeasureTexture,Image|ModuleError_04Groups,Image|ModuleError_03NamesAndTypes,Image|ModuleError_01Images,Image|ModuleError_05IdentifyPrimaryObjects,Image|MD5Digest_Nuc,Image|MD5Digest_Act,Image|MD5Digest_Myo,Image|URL_Act,Image|URL_Nuc,Image|URL_Myo,Image|Count_Nuclei,Image|Group_Number,Image|Group_Index,Image|Group_Length,Image|Frame_Act,Image|Frame_Myo,Image|Frame_Nuc,Image|Threshold_FinalThreshold_Nuclei,Image|Threshold_OrigThreshold_Nuclei,Image|Threshold_WeightedVariance_Nuclei,Image|Threshold_SumOfEntropies_Nuclei,Image|PathName_Nuc,Image|PathName_Act,Image|PathName_Myo,Image|Series_Act,Image|Series_Nuc,Image|Series_Myo,Nuclei|AreaShape_Zernike_8_8,Nuclei|AreaShape_Zernike_8_0,Nuclei|AreaShape_Zernike_8_4,Nuclei|AreaShape_Zernike_8_2,Nuclei|AreaShape_Zernike_8_6,Nuclei|AreaShape_Zernike_4_0,Nuclei|AreaShape_Zernike_4_4,Nuclei|AreaShape_Zernike_4_2,Nuclei|AreaShape_Zernike_6_6,Nuclei|AreaShape_Zernike_6_2,Nuclei|AreaShape_Zernike_6_4,Nuclei|AreaShape_Zernike_6_0,Nuclei|AreaShape_Zernike_7_3,Nuclei|AreaShape_Zernike_7_1,Nuclei|AreaShape_Zernike_7_7,Nuclei|AreaShape_Zernike_7_5,Nuclei|AreaShape_Zernike_5_1,Nuclei|AreaShape_Zernike_5_5,Nuclei|AreaShape_Zernike_5_3,Nuclei|AreaShape_Zernike_3_1,Nuclei|AreaShape_Zernike_3_3,Nuclei|AreaShape_Zernike_9_9,Nuclei|AreaShape_Zernike_9_1,Nuclei|AreaShape_Zernike_9_5,Nuclei|AreaShape_Zernike_9_7,Nuclei|AreaShape_Zernike_9_3,Nuclei|AreaShape_Zernike_2_2,Nuclei|AreaShape_Zernike_2_0,Nuclei|AreaShape_Zernike_0_0,Nuclei|AreaShape_Zernike_1_1,Nuclei|AreaShape_CentralMoment_2_0,Nuclei|AreaShape_CentralMoment_2_1,Nuclei|AreaShape_CentralMoment_2_3,Nuclei|AreaShape_CentralMoment_2_2,Nuclei|AreaShape_CentralMoment_1_1,Nuclei|AreaShape_CentralMoment_1_2,Nuclei|AreaShape_CentralMoment_1_3,Nuclei|AreaShape_CentralMoment_1_0,Nuclei|AreaShape_CentralMoment_0_0,Nuclei|AreaShape_CentralMoment_0_2,Nuclei|AreaShape_CentralMoment_0_3,Nuclei|AreaShape_CentralMoment_0_1,Nuclei|AreaShape_HuMoment_0,Nuclei|AreaShape_HuMoment_2,Nuclei|AreaShape_HuMoment_5,Nuclei|AreaShape_HuMoment_4,Nuclei|AreaShape_HuMoment_3,Nuclei|AreaShape_HuMoment_1,Nuclei|AreaShape_HuMoment_6,Nuclei|AreaShape_NormalizedMoment_2_0,Nuclei|AreaShape_NormalizedMoment_2_1,Nuclei|AreaShape_NormalizedMoment_2_3,Nuclei|AreaShape_NormalizedMoment_2_2,Nuclei|AreaShape_NormalizedMoment_3_0,Nuclei|AreaShape_NormalizedMoment_3_1,Nuclei|AreaShape_NormalizedMoment_3_2,Nuclei|AreaShape_NormalizedMoment_3_3,Nuclei|AreaShape_NormalizedMoment_0_3,Nuclei|AreaShape_NormalizedMoment_0_2,Nuclei|AreaShape_NormalizedMoment_0_0,Nuclei|AreaShape_NormalizedMoment_0_1,Nuclei|AreaShape_NormalizedMoment_1_3,Nuclei|AreaShape_NormalizedMoment_1_0,Nuclei|AreaShape_NormalizedMoment_1_1,Nuclei|AreaShape_NormalizedMoment_1_2,Nuclei|AreaShape_SpatialMoment_2_0,Nuclei|AreaShape_SpatialMoment_2_1,Nuclei|AreaShape_SpatialMoment_2_2,Nuclei|AreaShape_SpatialMoment_2_3,Nuclei|AreaShape_SpatialMoment_1_1,Nuclei|AreaShape_SpatialMoment_1_3,Nuclei|AreaShape_SpatialMoment_1_2,Nuclei|AreaShape_SpatialMoment_1_0,Nuclei|AreaShape_SpatialMoment_0_2,Nuclei|AreaShape_SpatialMoment_0_1,Nuclei|AreaShape_SpatialMoment_0_0,Nuclei|AreaShape_SpatialMoment_0_3,Nuclei|AreaShape_ConvexArea,Nuclei|AreaShape_Extent,Nuclei|AreaShape_BoundingBoxMaximum_X,Nuclei|AreaShape_BoundingBoxMaximum_Y,Nuclei|AreaShape_EquivalentDiameter,Nuclei|AreaShape_MinorAxisLength,Nuclei|AreaShape_InertiaTensor_0_0,Nuclei|AreaShape_InertiaTensor_0_1,Nuclei|AreaShape_InertiaTensor_1_1,Nuclei|AreaShape_InertiaTensor_1_0,Nuclei|AreaShape_Solidity,Nuclei|AreaShape_BoundingBoxMinimum_Y,Nuclei|AreaShape_BoundingBoxMinimum_X,Nuclei|AreaShape_MeanRadius,Nuclei|AreaShape_Area,Nuclei|AreaShape_InertiaTensorEigenvalues_1,Nuclei|AreaShape_InertiaTensorEigenvalues_0,Nuclei|AreaShape_Compactness,Nuclei|AreaShape_Eccentricity,Nuclei|AreaShape_Center_X,Nuclei|AreaShape_Center_Y,Nuclei|AreaShape_MinFeretDiameter,Nuclei|AreaShape_BoundingBoxArea,Nuclei|AreaShape_MaximumRadius,Nuclei|AreaShape_Orientation,Nuclei|AreaShape_MajorAxisLength,Nuclei|AreaShape_MaxFeretDiameter,Nuclei|AreaShape_EulerNumber,Nuclei|AreaShape_MedianRadius,Nuclei|AreaShape_Perimeter,Nuclei|AreaShape_FormFactor,Nuclei|Texture_InfoMeas2_Nuc_3_03_20,Nuclei|Texture_InfoMeas2_Nuc_3_01_20,Nuclei|Texture_InfoMeas2_Nuc_3_02_20,Nuclei|Texture_InfoMeas2_Nuc_3_00_20,Nuclei|Texture_InfoMeas1_Nuc_3_00_20,Nuclei|Texture_InfoMeas1_Nuc_3_03_20,Nuclei|Texture_InfoMeas1_Nuc_3_01_20,Nuclei|Texture_InfoMeas1_Nuc_3_02_20,Nuclei|Texture_Correlation_Nuc_3_00_20,Nuclei|Texture_Correlation_Nuc_3_02_20,Nuclei|Texture_Correlation_Nuc_3_01_20,Nuclei|Texture_Correlation_Nuc_3_03_20,Nuclei|Texture_InverseDifferenceMoment_Nuc_3_02_20,Nuclei|Texture_InverseDifferenceMoment_Nuc_3_00_20,Nuclei|Texture_InverseDifferenceMoment_Nuc_3_03_20,Nuclei|Texture_InverseDifferenceMoment_Nuc_3_01_20,Nuclei|Texture_SumVariance_Nuc_3_03_20,Nuclei|Texture_SumVariance_Nuc_3_02_20,Nuclei|Texture_SumVariance_Nuc_3_00_20,Nuclei|Texture_SumVariance_Nuc_3_01_20,Nuclei|Texture_AngularSecondMoment_Nuc_3_01_20,Nuclei|Texture_AngularSecondMoment_Nuc_3_00_20,Nuclei|Texture_AngularSecondMoment_Nuc_3_02_20,Nuclei|Texture_AngularSecondMoment_Nuc_3_03_20,Nuclei|Texture_Contrast_Nuc_3_03_20,Nuclei|Texture_Contrast_Nuc_3_02_20,Nuclei|Texture_Contrast_Nuc_3_01_20,Nuclei|Texture_Contrast_Nuc_3_00_20,Nuclei|Texture_SumEntropy_Nuc_3_02_20,Nuclei|Texture_SumEntropy_Nuc_3_00_20,Nuclei|Texture_SumEntropy_Nuc_3_01_20,Nuclei|Texture_SumEntropy_Nuc_3_03_20,Nuclei|Texture_SumAverage_Nuc_3_00_20,Nuclei|Texture_SumAverage_Nuc_3_03_20,Nuclei|Texture_SumAverage_Nuc_3_01_20,Nuclei|Texture_SumAverage_Nuc_3_02_20,Nuclei|Texture_DifferenceEntropy_Nuc_3_00_20,Nuclei|Texture_DifferenceEntropy_Nuc_3_01_20,Nuclei|Texture_DifferenceEntropy_Nuc_3_03_20,Nuclei|Texture_DifferenceEntropy_Nuc_3_02_20,Nuclei|Texture_Variance_Nuc_3_02_20,Nuclei|Texture_Variance_Nuc_3_00_20,Nuclei|Texture_Variance_Nuc_3_01_20,Nuclei|Texture_Variance_Nuc_3_03_20,Nuclei|Texture_DifferenceVariance_Nuc_3_02_20,Nuclei|Texture_DifferenceVariance_Nuc_3_01_20,Nuclei|Texture_DifferenceVariance_Nuc_3_00_20,Nuclei|Texture_DifferenceVariance_Nuc_3_03_20,Nuclei|Texture_Entropy_Nuc_3_01_20,Nuclei|Texture_Entropy_Nuc_3_00_20,Nuclei|Texture_Entropy_Nuc_3_03_20,Nuclei|Texture_Entropy_Nuc_3_02_20,Nuclei|Intensity_IntegratedIntensity_Nuc,Nuclei|Intensity_MinIntensityEdge_Nuc,Nuclei|Intensity_IntegratedIntensityEdge_Nuc,Nuclei|Intensity_MaxIntensityEdge_Nuc,Nuclei|Intensity_MADIntensity_Nuc,Nuclei|Intensity_UpperQuartileIntensity_Nuc,Nuclei|Intensity_StdIntensityEdge_Nuc,Nuclei|Intensity_StdIntensity_Nuc,Nuclei|Intensity_MinIntensity_Nuc,Nuclei|Intensity_MeanIntensityEdge_Nuc,Nuclei|Intensity_MaxIntensity_Nuc,Nuclei|Intensity_MedianIntensity_Nuc,Nuclei|Intensity_LowerQuartileIntensity_Nuc,Nuclei|Intensity_MassDisplacement_Nuc,Nuclei|Intensity_MeanIntensity_Nuc,Nuclei|RadialDistribution_ZernikePhase_Nuc_8_8,Nuclei|RadialDistribution_ZernikePhase_Nuc_8_4,Nuclei|RadialDistribution_ZernikePhase_Nuc_8_2,Nuclei|RadialDistribution_ZernikePhase_Nuc_8_0,Nuclei|RadialDistribution_ZernikePhase_Nuc_8_6,Nuclei|RadialDistribution_ZernikePhase_Nuc_7_1,Nuclei|RadialDistribution_ZernikePhase_Nuc_7_5,Nuclei|RadialDistribution_ZernikePhase_Nuc_7_3,Nuclei|RadialDistribution_ZernikePhase_Nuc_7_7,Nuclei|RadialDistribution_ZernikePhase_Nuc_3_1,Nuclei|RadialDistribution_ZernikePhase_Nuc_3_3,Nuclei|RadialDistribution_ZernikePhase_Nuc_9_9,Nuclei|RadialDistribution_ZernikePhase_Nuc_9_3,Nuclei|RadialDistribution_ZernikePhase_Nuc_9_7,Nuclei|RadialDistribution_ZernikePhase_Nuc_9_5,Nuclei|RadialDistribution_ZernikePhase_Nuc_9_1,Nuclei|RadialDistribution_ZernikePhase_Nuc_6_4,Nuclei|RadialDistribution_ZernikePhase_Nuc_6_0,Nuclei|RadialDistribution_ZernikePhase_Nuc_6_2,Nuclei|RadialDistribution_ZernikePhase_Nuc_6_6,Nuclei|RadialDistribution_ZernikePhase_Nuc_4_4,Nuclei|RadialDistribution_ZernikePhase_Nuc_4_0,Nuclei|RadialDistribution_ZernikePhase_Nuc_4_2,Nuclei|RadialDistribution_ZernikePhase_Nuc_2_2,Nuclei|RadialDistribution_ZernikePhase_Nuc_2_0,Nuclei|RadialDistribution_ZernikePhase_Nuc_5_1,Nuclei|RadialDistribution_ZernikePhase_Nuc_5_5,Nuclei|RadialDistribution_ZernikePhase_Nuc_5_3,Nuclei|RadialDistribution_ZernikePhase_Nuc_0_0,Nuclei|RadialDistribution_ZernikePhase_Nuc_1_1,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_3_1,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_3_3,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_8_8,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_8_6,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_8_4,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_8_0,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_8_2,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_7_1,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_7_5,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_7_3,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_7_7,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_4_4,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_4_0,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_4_2,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_5_3,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_5_5,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_5_1,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_9_5,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_9_7,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_9_1,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_9_9,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_9_3,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_6_4,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_6_0,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_6_6,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_6_2,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_0_0,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_2_2,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_2_0,Nuclei|RadialDistribution_ZernikeMagnitude_Nuc_1_1,Nuclei|RadialDistribution_MeanFrac_Nuc_2of6,Nuclei|RadialDistribution_MeanFrac_Nuc_3of6,Nuclei|RadialDistribution_MeanFrac_Nuc_6of6,Nuclei|RadialDistribution_MeanFrac_Nuc_5of6,Nuclei|RadialDistribution_MeanFrac_Nuc_4of6,Nuclei|RadialDistribution_MeanFrac_Nuc_1of6,Nuclei|RadialDistribution_FracAtD_Nuc_2of6,Nuclei|RadialDistribution_FracAtD_Nuc_1of6,Nuclei|RadialDistribution_FracAtD_Nuc_3of6,Nuclei|RadialDistribution_FracAtD_Nuc_5of6,Nuclei|RadialDistribution_FracAtD_Nuc_4of6,Nuclei|RadialDistribution_FracAtD_Nuc_6of6,Nuclei|RadialDistribution_RadialCV_Nuc_4of6,Nuclei|RadialDistribution_RadialCV_Nuc_3of6,Nuclei|RadialDistribution_RadialCV_Nuc_1of6,Nuclei|RadialDistribution_RadialCV_Nuc_2of6,Nuclei|RadialDistribution_RadialCV_Nuc_6of6,Nuclei|RadialDistribution_RadialCV_Nuc_5of6,Nuclei|Location_MaxIntensity_X_Nuc,Nuclei|Location_MaxIntensity_Z_Nuc,Nuclei|Location_MaxIntensity_Y_Nuc,Nuclei|Location_Center_Y,Nuclei|Location_Center_Z,Nuclei|Location_Center_X,Nuclei|Location_CenterMassIntensity_Y_Nuc,Nuclei|Location_CenterMassIntensity_Z_Nuc,Nuclei|Location_CenterMassIntensity_X_Nuc,Nuclei|Number_Object_Number,Experiment|Pipeline_Pipeline,Experiment|Run_Timestamp,Experiment|CellProfiler_Version,Experiment|Modification_Timestamp
+    Representation of Nan/Inf:NaN
+    Add a prefix to file names?:Yes
+    Filename prefix:nuc_data_
+    Overwrite existing files without warning?:No
+    Data to export:Do not use
+    Combine these object measurements with those of the previous object?:No
+    File name:DATA.csv
+    Use the object name for the file name?:Yes
